@@ -12,7 +12,7 @@ pub struct Graph<T: Num> {
 }
 
 impl<T: Num + Copy> Graph<T> {
-    fn new(size: usize) -> Graph<T> {
+    pub fn new(size: usize) -> Graph<T> {
         Graph {
             size,
             matrix: Array2::zeros((size, size)),
@@ -21,27 +21,27 @@ impl<T: Num + Copy> Graph<T> {
         }
     }
 
-    fn set_connection(&mut self, v1: usize, v2: usize, value: T) {
+    pub fn set_connection(&mut self, v1: usize, v2: usize, value: T) {
         if v1 < self.size && v2 < self.size {
             self.matrix[[v1,v2]] = value;
             self.matrix[[v2,v1]] = value;
         }
     }
 
-    fn del_connection(&mut self, v1: usize, v2: usize){
+    pub fn del_connection(&mut self, v1: usize, v2: usize){
         if v1 < self.size && v2 < self.size {
             self.matrix[[v1,v2]] = zero();
             self.matrix[[v2,v1]] = zero();
         }
     }
 
-    fn get_connection(&self, v1: usize, v2: usize) -> T {
+    pub fn get_connection(&self, v1: usize, v2: usize) -> T {
         self.matrix[[v1,v2]]
     }
 }
 
 impl<T: Float> Graph<T> {
-    fn add_point(&mut self, point: Point<T>) {
+    pub fn add_point(&mut self, point: Point<T>) {
         for i in 0..self.vertex_count {
             let dist = point.dist_to(&self.points[i]);
             self.set_connection(i, self.vertex_count, dist);
