@@ -1,37 +1,35 @@
-pub mod point {
-    use num_traits::Num;
+#![allow(dead_code)]
 
-    pub struct Point<T: Num> {
-        id: i32,
-        coordinates: (T,T),
+use num_traits::{pow, Float, Num};
+pub struct Point<T: Num> {
+    id: usize,
+    coordinates: (T, T),
+}
+
+impl<T: Num + Copy> Point<T> {
+    pub fn new(id: usize, coordinates: (T, T)) -> Point<T> {
+        Point { id, coordinates }
     }
 
-    impl<T: Num> Point<T> {
-        fn new(id: i32, coordinates: (T,T)) -> Point<T> {
-            Point {
-                id,
-                coordinates,
-            }
-        }
-
-        fn id(&self) -> i32 {
-            self.id
-        }
-
-        fn x(&self) -> T {
-            self.coordinates.0
-        }
-
-        fn y(&self) -> T {
-            self.coordinates.1
-        }
-        
-        fn dist_to(&self, point: &Point<T>){
-            let x = point.x();
-            let y = point.y();
-
-            ((x - self.x()).powi(2) + (y - self.y()).powi(2)).sqrt();
-        }
+    pub fn id(&self) -> usize {
+        self.id
     }
 
+    pub fn x(&self) -> T {
+        self.coordinates.0
+    }
+
+    pub fn y(&self) -> T {
+        self.coordinates.1
+    }
+}
+
+impl<T: Float> Point<T> {
+    pub fn dist_to(&self, point: &Point<T>) -> T {
+        let x = point.x();
+        let y = point.y();
+        let r = pow(x - self.x(), 2) + pow(y - self.y(), 2);
+
+        r.sqrt()
+    }
 }
