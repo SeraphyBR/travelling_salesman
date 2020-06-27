@@ -2,6 +2,7 @@
 
 use num_traits::{pow, Float, Num, NumCast, cast};
 
+#[derive(PartialEq, Clone)]
 pub struct Point<T: Num> {
     id: usize,
     coordinates: (T, T),
@@ -41,7 +42,7 @@ impl<T: Num + Copy + NumCast> Point<T> {
         let y = point.y();
         let r = pow(x - self.x(), 2) + pow(y - self.y(), 2);
 
-        let x: V = cast(r).unwrap();
+        let x: V = cast(r).unwrap_or(V::zero());
         x.sqrt()
     }
 }
