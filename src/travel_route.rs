@@ -11,6 +11,7 @@ type Route = Vec<usize>;
 type Cities = Vec<City>;
 type Graph = graph::Graph<f32>;
 
+#[derive(Clone)]
 pub struct TravelRoute {
     cities_dist: Graph,
     route: Route,

@@ -4,6 +4,7 @@ use crate::point::Point;
 use ndarray::Array2;
 use num_traits::{Num, Float, zero};
 
+#[derive(Clone)]
 pub struct Graph<T: Num> {
     size: usize,
     matrix: Array2<T>,
