@@ -6,9 +6,6 @@ use crate::travel_route::TravelRoute;
 
 use rand::Rng;
 use rand::thread_rng;
-use rand::seq::SliceRandom;
-
-use ndarray::Array2;
 
 type City = Point<i32>;
 type Route = Vec<usize>;
@@ -66,7 +63,7 @@ impl Genetic {
         let mut elitism_offset = 0;
 
         if self.elitism {
-            next_gen[0] = get_best_route(p);
+            next_gen[0] = self.get_best_route(p);
             elitism_offset = 1;
         }
 
@@ -85,7 +82,7 @@ impl Genetic {
     }
 
     fn crossover(&self, a: TravelRoute, b: TravelRoute) -> TravelRoute {
-        let mut child_cities = Cities::with_capacity(a.len());
+        let mut child_cities = Cities::with_capacity(a.size());
 
         // Obtem uma posicao inicial e final de uma sub rota de 'a'
         let mut rng = thread_rng();
