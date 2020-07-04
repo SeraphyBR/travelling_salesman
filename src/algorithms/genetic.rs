@@ -9,7 +9,7 @@ use rand::thread_rng;
 
 type City = Point<i32>;
 type Route = Vec<usize>;
-type Cities = Vec<City>;
+type OpCities = Vec<Option<City>>;
 type Graph = graph::Graph<f32>;
 type Population = Vec<TravelRoute>;
 
@@ -58,7 +58,7 @@ impl Genetic {
     }
 
 
-    pub fn evolve_population(&self, p: Population) -> Population {
+    pub fn evolve_population(&self, p: &mut Population) -> Population {
         let mut next_gen = Population::with_capacity(p.len());
         let mut elitism_offset = 0;
 
@@ -68,9 +68,9 @@ impl Genetic {
         }
 
         for i in elitism_offset..p.len() {
-            let p1 = self.tournament_selection(p);
-            let p2 = self.tournament_selection(p);
-            let child = self.crossover(p1, p2);
+            let p1 = self.tournament_selection(&p);
+            let p2 = self.tournament_selection(&p);
+            let child = self.crossover(&p1, &p2);
             next_gen[i] = child;
         }
 
@@ -81,8 +81,9 @@ impl Genetic {
         next_gen
     }
 
-    fn crossover(&self, a: TravelRoute, b: TravelRoute) -> TravelRoute {
-        let mut child_cities = Cities::with_capacity(a.size());
+    fn crossover(&self, a: &TravelRoute, b: &TravelRoute) -> TravelRoute {
+        let mut child_cities = OpCities::new();
+        child_cities.resize(a.size(), None);
 
         // Obtem uma posicao inicial e final de uma sub rota de 'a'
         let mut rng = thread_rng();
@@ -91,22 +92,24 @@ impl Genetic {
 
         for i in 0..child_cities.len() {
             if start_pos < end_pos && i > start_pos && i < end_pos {
-                child_cities[i] = a.get_city(i);
+                child_cities[i] = Some(a.get_city(i));
             }
             else if start_pos > end_pos {
                 if !(i < start_pos && i > end_pos) {
-                    child_cities[i] = a.get_city(i);
+                    child_cities[i] = Some(a.get_city(i));
                 }
             }
         }
 
         for i in 0..b.size() {
-             if !child_cities.contains(&b.get_city(i)) {
+             if !child_cities.contains(&Some(b.get_city(i))) {
                  for j in 0..child_cities.len() {
-
+                    child_cities[j] = Some(b.get_city(i));
                  }
              }
         }
+
+        let child_cities = child_cities.into_iter().filter_map(|x| x).collect::<Vec<_>>();
 
         TravelRoute::with_cities(child_cities)
     }
@@ -121,15 +124,21 @@ impl Genetic {
         }
     }
 
-    fn tournament_selection(&self, p: Population) -> TravelRoute {
-
+    fn tournament_selection(&self, p: &Population) -> TravelRoute {
+        let mut tournament = Population::with_capacity(self.population_size);
+        let mut rng = thread_rng();
+        for i in 0..self.tournament_size {
+            let random_idx = rng.gen_range(0, p.len());
+            tournament[i] = p[random_idx].clone();
+        }
+        self.get_best_route(&mut tournament)
     }
 
-    fn get_best_route(&self, p: Population) -> TravelRoute {
-        let mut best = p[0];
+    fn get_best_route(&self, p: &mut Population) -> TravelRoute {
+        let mut best = p[0].clone();
         for route in p {
             if route.get_fitness() >= best.get_fitness() {
-                best = route;
+                best = route.clone();
             }
         }
         best

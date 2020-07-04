@@ -2,7 +2,7 @@
 
 use num_traits::{pow, Float, Num, NumCast, cast};
 
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Copy)]
 pub struct Point<T: Num> {
     id: usize,
     coordinates: (T, T),
