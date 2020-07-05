@@ -50,4 +50,37 @@ impl BranchBound {
         weight += self.graph.get_connection(path[path.len() - 1], 0);
         weight
     }
+
+    fn calculate_lower_bound(&mut self) {
+        let input_size = self.graph.get_vertex_count();
+        let mut sum = 0.0;
+        if input_size > 1 {
+            for i in 0..input_size {
+                let tmp = self.graph.get_connection(i, i);
+                self.graph.set_connection(i, i, f32::MAX);
+
+                let mut min1 = self.graph.get_connection(i, 0);
+                let mut min2 = self.graph.get_connection(i, 1);
+
+                if min2 < min1 {
+                    min1 = self.graph.get_connection(i, 1);
+                    min2 = self.graph.get_connection(i, 0);
+                }
+
+                for j in 2..input_size {
+                    let aux = self.graph.get_connection(j, j);
+                    if tmp < min1 {
+                        min2 = min1;
+                        min1 = aux;
+                    }
+                    else if tmp < min2 {
+                        min2 = aux;
+                    }
+                }
+                self.graph.set_connection(i, i, tmp);
+                sum += min1 + min2;
+            }
+        }
+        self.lower_bound = sum;
+    }
 }

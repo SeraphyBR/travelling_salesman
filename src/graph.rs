@@ -39,6 +39,10 @@ impl<T: Num + Copy> Graph<T> {
     pub fn get_connection(&self, v1: usize, v2: usize) -> T {
         self.matrix[[v1,v2]]
     }
+
+    pub fn get_vertex_count(&self) -> usize {
+        self.vertex_count
+    }
 }
 
 impl<T: Float> Graph<T> {
