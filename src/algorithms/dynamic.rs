@@ -26,12 +26,12 @@ pub struct Dynamic {
 
 impl Dynamic {
     fn tsd(&mut self, mask: i32, source: i32) -> f32 {
-
+        todo!();
     }
 }
 
 impl Algorithm for Dynamic {
     fn run(&mut self, input_size: usize) -> TSPResult {
-
+        todo!();
     }
 }

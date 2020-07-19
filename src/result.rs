@@ -8,7 +8,7 @@ pub struct TSPResult {
 }
 
 impl TSPResult {
-    fn with_values(input_size: usize, min_dist: f32, min_path: &[usize], time: f64) -> TSPResult {
+    pub fn with_values(input_size: usize, min_dist: f32, min_path: &[usize], time: f64) -> TSPResult {
         TSPResult {
             input_size,
             min_dist,

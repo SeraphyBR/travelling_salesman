@@ -148,6 +148,6 @@ impl Genetic {
 
 impl Algorithm for Genetic {
     fn run(&mut self, input_size: usize) -> TSPResult {
-
+        todo!();
     }
 }

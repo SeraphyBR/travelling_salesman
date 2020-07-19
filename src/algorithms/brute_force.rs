@@ -51,9 +51,10 @@ impl BruteForce {
 
 impl Algorithm for BruteForce {
     fn run(&mut self, input_size: usize) -> TSPResult {
-        let graph_path: Route = (0..input_size).collect();
+        let mut graph_path: Route = (0..input_size).collect();
         self.min_dist = f32::MAX;
         // self.graph =
         self.permutation(graph_path.as_mut_slice(), 1);
+        TSPResult::with_values(input_size, self.min_dist, self.min_path.as_slice(), 0.0)
     }
 }
