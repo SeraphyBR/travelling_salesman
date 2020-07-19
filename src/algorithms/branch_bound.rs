@@ -5,6 +5,7 @@ use ndarray::Array2;
 use crate::graph;
 use crate::point::Point;
 use crate::travel_route::TravelRoute;
+use super::algorithm::{Algorithm, TSPResult};
 
 type City = Point<i32>;
 type Route = Vec<usize>;
@@ -82,5 +83,15 @@ impl BranchBound {
             }
         }
         self.lower_bound = sum;
+    }
+}
+
+impl Algorithm for BranchBound {
+    fn run(&mut self, input_size: usize) -> TSPResult {
+        let graph_path: Route = (0..input_size).collect();
+        self.min_dist = f32::MAX;
+        // self.graph =
+        self.calculate_lower_bound();
+        self.permutation(graph_path.as_mut_slice(), 1);
     }
 }

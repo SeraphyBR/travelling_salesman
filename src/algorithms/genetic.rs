@@ -3,6 +3,7 @@
 use crate::graph;
 use crate::point::Point;
 use crate::travel_route::TravelRoute;
+use super::algorithm::{Algorithm, TSPResult};
 
 use rand::Rng;
 use rand::thread_rng;
@@ -142,5 +143,11 @@ impl Genetic {
             }
         }
         best
+    }
+}
+
+impl Algorithm for Genetic {
+    fn run(&mut self, input_size: usize) -> TSPResult {
+
     }
 }

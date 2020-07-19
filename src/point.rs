@@ -25,6 +25,10 @@ impl<T: Num + Copy> Point<T> {
         self.coordinates.1
     }
 
+    pub fn coordinates(&self) -> (T, T) {
+        self.coordinates
+    }
+
 }
 
 impl<T: Float> Point<T> {

@@ -5,6 +5,7 @@ use ndarray::Array2;
 use crate::graph;
 use crate::point::Point;
 use crate::travel_route::TravelRoute;
+use super::algorithm::{Algorithm, TSPResult};
 
 type City = Point<i32>;
 type Route = Vec<usize>;
@@ -21,4 +22,16 @@ pub struct Dynamic {
     size: usize,
     pos: usize,
     visited: usize
+}
+
+impl Dynamic {
+    fn tsd(&mut self, mask: i32, source: i32) -> f32 {
+
+    }
+}
+
+impl Algorithm for Dynamic {
+    fn run(&mut self, input_size: usize) -> TSPResult {
+
+    }
 }

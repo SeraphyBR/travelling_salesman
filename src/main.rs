@@ -3,6 +3,7 @@ mod point;
 mod travel_route;
 mod graph;
 mod algorithms;
+mod result;
 
 use std::io;
 use std::io::Write;
