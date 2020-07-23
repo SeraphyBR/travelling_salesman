@@ -1,14 +1,16 @@
+pub use std::time::{Duration, Instant};
+
 pub type TSPResults = Vec<TSPResult>;
 
 pub struct TSPResult {
     input_size: usize,
     min_dist: f32,
     min_path: Vec<usize>,
-    time: f64
+    time: Duration
 }
 
 impl TSPResult {
-    pub fn with_values(input_size: usize, min_dist: f32, min_path: &[usize], time: f64) -> TSPResult {
+    pub fn with_values(input_size: usize, min_dist: f32, min_path: &[usize], time: Duration) -> TSPResult {
         TSPResult {
             input_size,
             min_dist,

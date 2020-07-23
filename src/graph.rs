@@ -2,7 +2,7 @@
 
 use crate::point::Point;
 use ndarray::Array2;
-use num_traits::{Num, Float, zero};
+use num_traits::{Num, Float, zero, NumCast, cast};
 
 #[derive(Clone)]
 pub struct Graph<T: Num> {
@@ -45,11 +45,11 @@ impl<T: Num + Copy> Graph<T> {
     }
 }
 
-impl<T: Float> Graph<T> {
+impl<T: Num + NumCast + Copy> Graph<T> {
     pub fn add_point(&mut self, point: Point<T>) {
         for i in 0..self.vertex_count {
-            let dist = point.dist_to(&self.points[i]);
-            self.set_connection(i, self.vertex_count, dist);
+            let dist: f64 = point.dist_to(&self.points[i]);
+            self.set_connection(i, self.vertex_count, cast(dist).unwrap_or(T::zero()));
         }
 
         self.points.push(point);

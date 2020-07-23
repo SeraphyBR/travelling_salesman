@@ -1,4 +1,4 @@
-pub use crate::result::{TSPResult, TSPResults};
+pub use crate::result::{TSPResult, TSPResults, Instant};
 
 
 pub trait Algorithm {

@@ -2,17 +2,15 @@
 
 
 use std::fs::File;
-use std::io::{Error, prelude::*};
+use std::io::{Error, BufReader, prelude::*};
+use std::str::FromStr;
 
 use rand::Rng;
 use rand::thread_rng;
 use num_traits::{pow, Float, Num, NumCast, cast};
 
-use crate::graph;
+use crate::graph::Graph;
 use crate::point::Point;
-use crate::travel_route::TravelRoute;
-
-type Graph = graph::Graph<f32>;
 
 const MAX_XY: i32 = 1000;
 
@@ -61,10 +59,30 @@ pub fn gen_all_allowed_random_inputs(begin: usize, end: usize) {
     }
 }
 
-pub fn read_graph_in_file() {
+pub fn read_graph_in_file<T: Num + NumCast + FromStr + Copy>(input_size: usize) -> Result<Graph<T>, Error> {
+    let points = read_points_in_file(input_size)?;
+    let mut graph = Graph::new(points.len());
+    for p in points {
+        graph.add_point(p);
+    }
 
+    Ok(graph)
 }
 
-pub fn read_cities_in_file() {
+pub fn read_points_in_file<T: Num + FromStr + Copy>(input_size: usize) -> Result<Vec<Point<T>>, Error> {
+    let mut file = File::open(format!("inputs/vertices_{}.in", input_size))?;
+    let mut content = String::new();
 
+    file.read_to_string(&mut content)?;
+
+    let values: Vec<T> = content.split_whitespace()
+        .filter_map(|l| l.trim().parse().ok()).collect();
+
+    let mut points = Vec::with_capacity(input_size);
+
+    for i in 2..values.len() {
+        points.push(Point::new(i - 2, (values[i - 1], values[i])));
+    }
+
+    Ok(points)
 }

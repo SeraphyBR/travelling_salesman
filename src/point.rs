@@ -44,7 +44,7 @@ impl<T: Num + Copy + NumCast> Point<T> {
     pub fn dist_to<V: Float>(&self, point: &Point<T>) -> V {
         let x = point.x();
         let y = point.y();
-        let r = pow(x - self.x(), 2) + pow(y - self.y(), 2);
+        let r: T = pow(x - self.x(), 2) + pow(y - self.y(), 2);
 
         let x: V = cast(r).unwrap_or(V::zero());
         x.sqrt()
