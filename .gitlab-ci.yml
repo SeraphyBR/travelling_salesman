@@ -16,6 +16,7 @@ pages:
   script:
     - cargo doc --no-deps
     - mv target/doc public
+    - echo '<meta http-equiv="refresh" content="0; url=travelling_salesman">' > public/index.html
   artifacts:
     paths:
       - public
