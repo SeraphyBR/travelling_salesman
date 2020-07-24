@@ -4,6 +4,7 @@ use crate::point::Point;
 use ndarray::Array2;
 use num_traits::{Num, Float, zero, NumCast, cast};
 
+/// Describes a graph
 #[derive(Clone)]
 pub struct Graph<T: Num> {
     size: usize,
@@ -45,11 +46,11 @@ impl<T: Num + Copy> Graph<T> {
     }
 }
 
-impl<T: Num + NumCast + Copy> Graph<T> {
+impl<T: Num + NumCast + Copy + Default> Graph<T> {
     pub fn add_point(&mut self, point: Point<T>) {
         for i in 0..self.vertex_count {
             let dist: f64 = point.dist_to(&self.points[i]);
-            self.set_connection(i, self.vertex_count, cast(dist).unwrap_or(T::zero()));
+            self.set_connection(i, self.vertex_count, cast(dist).unwrap_or_default());
         }
 
         self.points.push(point);

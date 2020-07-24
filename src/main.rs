@@ -17,14 +17,14 @@ fn main() {
 
         match read("OP: ").trim() {
             "0" => break,
-            "1" => menu1(),
-            "2" => menu2(),
+            "1" => menu_generated(),
+            "2" => menu_manual(),
             _ => continue,
         }
     }
 }
 
-fn menu1() {
+fn menu_generated() {
     loop {
         println!("1. Generate new random inputs [1..100]");
         println!("2. Brute Force through inputs");
@@ -38,7 +38,7 @@ fn menu1() {
         println!("0. Exit\n");
         match read("OP: ").trim() {
             "0" => break,
-            "1" => input_manager::gen_all_allowed_random_inputs(1, 100),
+            "1" => input_manager::gen_all_allowed_random_inputs::<i32>(1, 100),
             "2" => {},
             "3" => {},
             "4" => {},
@@ -52,7 +52,7 @@ fn menu1() {
     }
 }
 
-fn menu2() {
+fn menu_manual() {
     loop {
         println!("1. Brute Force algorithm");
         println!("2. Branch and Bound algorithm");

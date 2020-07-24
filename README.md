@@ -1,15 +1,23 @@
+# :hammer: This is a work in progress :hammer:
+
 # Travelling Salesman
 
-Este é uma reescrita em rust do trabalho realizado pelos alunos [Raul F. Mansur](https://github.com/raul4247),
-[Matheus L. O. Spindula](https://github.com/Matheussop), [Luiz J. V. Santos](https://github.com/SeraphyBR),
-na disciplina de Projeto de Análise de Algoritmos, 5º período de Ciência da Computação na PUC MG.
+This is a rewrite in rust of the work done by the students:
 
-## O que é:
+- [Raul F. Mansur](https://github.com/raul4247),
+- [Matheus L. O. Spindula](https://github.com/Matheussop),
+- [Luiz J. V. Santos](https://github.com/SeraphyBR)
 
-O objetivo do trabalho é o estudo e a implementação de algoritmos para resolver o Problema do
-Caixeiro Viajante (PCV) – _Travelling Salesman Problem_ – utilizando os seguintes paradigmas:
+in the discipline of "Projeto e Análise de Algoritmos", 5th period of Computer Science at PUC MG.
 
--   Força bruta
+You can find the original work in c++ [here](https://github.com/raul4247/travelling-salesman)
+
+## Objective:
+
+The objective of the work is the study and the implementation of algorithms to solve
+the Traveling Salesman Problem using the following paradigms:
+
+-   Brute force
 -   Branch and bound
--   Programação dinânima
--   Algoritmo genético
+-   Dynamic programming
+-   Genetic algorithm
