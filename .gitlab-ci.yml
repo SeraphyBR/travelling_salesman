@@ -1,0 +1,23 @@
+image: 'rust:latest'
+
+stages:
+  - test
+  - doc
+
+test:
+  stage: test
+  script:
+    - rustc --version
+    - cargo --version
+    - cargo test --verbose
+
+pages:
+  stage: doc
+  script:
+    - cargo doc --no-deps
+    - mv target/doc public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
