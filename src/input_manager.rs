@@ -63,17 +63,15 @@ pub fn gen_all_allowed_random_inputs<T: Num + NumCast + Default + Display + Copy
     }
 }
 
-pub fn read_graph<T: Num + NumCast + FromStr + Copy + Default>(input_size: usize, from_file: bool) -> Result<Graph<T>, Error> {
-    let points = read_points(input_size, from_file)?;
-    let mut graph = Graph::new(points.len());
-    for p in points {
-        graph.add_point(p);
-    }
-
-    Ok(graph)
+pub fn read_points_stdin<T: Num + NumCast + Default + FromStr + Copy>() -> Result<Vec<Point<T>>, Error> {
+    read_points(0, false)
 }
 
-pub fn read_points<T: Num + FromStr + Copy>(input_size: usize, from_file: bool) -> Result<Vec<Point<T>>, Error> {
+pub fn read_points_genereted<T: Num + NumCast + Default + FromStr + Copy>(input_size: usize) -> Result<Vec<Point<T>>, Error> {
+    read_points(input_size, true)
+}
+
+fn read_points<T: Num + NumCast + Default + FromStr + Copy>(input_size: usize, from_file: bool) -> Result<Vec<Point<T>>, Error> {
     let mut input: Box<dyn Read> = if from_file {
         Box::new(File::open(format!("inputs/vertices_{}.in", input_size))?)
     } else {
@@ -86,7 +84,7 @@ pub fn read_points<T: Num + FromStr + Copy>(input_size: usize, from_file: bool) 
     let values: Vec<T> = content.split_whitespace()
         .filter_map(|l| l.trim().parse().ok()).collect();
 
-    let mut points = Vec::with_capacity(input_size);
+    let mut points = Vec::with_capacity(values[0].to_usize().unwrap_or_default());
 
     for i in 2..values.len() {
         points.push(Point::new(i - 2, (values[i - 1], values[i])));

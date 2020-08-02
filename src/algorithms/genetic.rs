@@ -8,13 +8,14 @@ use super::algorithm::{Algorithm, TSPResult};
 use rand::Rng;
 use rand::thread_rng;
 
-type City = Point<i32>;
+type City = Point<f32>;
 type Route = Vec<usize>;
 type OpCities = Vec<Option<City>>;
 type Graph = graph::Graph<f32>;
 type Population = Vec<TravelRoute>;
 
 pub struct Genetic {
+    initial_cities: Vec<City>,
     mutation_rate: f32,
     tournament_size: usize,
     population_size: usize,
@@ -23,15 +24,6 @@ pub struct Genetic {
 }
 
 impl Genetic {
-    pub fn new() -> Genetic {
-        Genetic {
-            mutation_rate: 0.0,
-            tournament_size: 0,
-            population_size: 0,
-            generations: 1,
-            elitism: false,
-        }
-    }
 
     pub fn mutation_rate(&mut self, rate: f32) -> &mut Self {
         self.mutation_rate = rate;
@@ -149,6 +141,14 @@ impl Genetic {
 impl Algorithm for Genetic {
     fn with_input(input: Vec<Point<f32>>) -> Self {
 
+        Self {
+            initial_cities: input,
+            mutation_rate: 0.0,
+            tournament_size: 0,
+            population_size: 0,
+            generations: 1,
+            elitism: false,
+        }
     }
 
 

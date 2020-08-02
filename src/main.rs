@@ -6,7 +6,17 @@ mod algorithms;
 mod result;
 
 use std::io;
-use std::io::Write;
+use std::io::{Error, Write, Read};
+
+use crate::point::Point;
+
+use algorithms::{
+    algorithm::Algorithm,
+    brute_force::BruteForce,
+    branch_bound::BranchBound,
+    dynamic::Dynamic,
+    genetic::Genetic
+};
 
 fn main() {
     loop {
@@ -59,15 +69,31 @@ fn menu_manual() {
         println!("3. Dynamic algorithm");
         println!("4. Genetic algorithm");
         println!("0. Exit\n");
+
         match read("OP: ").trim() {
             "0" => break,
-            "1" => {},
-            "2" => {},
-            "3" => {},
-            "4" => {},
+            "1" => run_algorithm_stdin::<BruteForce>(),
+            "2" => run_algorithm_stdin::<BranchBound>(),
+            "3" => run_algorithm_stdin::<Dynamic>(),
+            "4" => run_algorithm_stdin::<Genetic>(),
             _ => continue,
         }
     }
+}
+
+fn run_algorithm_stdin<T: Algorithm>() {
+    println!("You can start typing, press Ctrl-D when finished");
+    match input_manager::read_points_stdin() {
+        Ok(input) => run_algorithm::<T>(input),
+        Err(e) => {
+            eprintln!("A entrada está incorreta");
+        }
+    };
+}
+
+fn run_algorithm<T: Algorithm>(input: Vec<Point<f32>>) {
+    let mut algorithm = T::with_input(input);
+    algorithm.run();
 }
 
 fn read(msg: &str) -> String {

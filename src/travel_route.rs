@@ -6,7 +6,7 @@ use rand::seq::SliceRandom;
 use crate::graph;
 use crate::point::Point;
 
-type City = Point<i32>;
+type City = Point<f32>;
 type Route = Vec<usize>;
 type Cities = Vec<City>;
 type Graph = graph::Graph<f32>;

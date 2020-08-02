@@ -52,7 +52,8 @@ impl BruteForce {
 impl Algorithm for BruteForce {
 
     fn with_input(input: Vec<Point<f32>>) -> Self {
-        let mut graph = Graph::new(input.len());
+        let size = input.len();
+        let mut graph = Graph::new(size);
         for p in input {
             graph.add_point(p);
         }
@@ -60,7 +61,7 @@ impl Algorithm for BruteForce {
         Self {
             graph,
             min_dist: f32::MAX,
-            min_path: Vec::with_capacity(input.len()),
+            min_path: Vec::with_capacity(size),
         }
     }
 

@@ -32,8 +32,21 @@ impl Dynamic {
 
 impl Algorithm for Dynamic {
     fn with_input(input: Vec<Point<f32>>) -> Self {
+        let size = input.len();
+        let mut graph = Graph::new(size);
+        for p in input {
+            graph.add_point(p);
+        }
 
-
+        Self {
+            graph,
+            path: Matrix::from_shape_fn((size, size), |(_,_)| -1),
+            dp: Matrix::from_shape_fn((size, size), |(_,_)| -1.0),
+            min_path: 0.0,
+            size,
+            pos: 0,
+            visited: 0
+        }
     }
 
     fn run(&mut self) -> TSPResult {
