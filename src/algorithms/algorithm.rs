@@ -1,18 +1,11 @@
 pub use crate::result::{TSPResult, TSPResults, Instant};
+use num_traits::{pow, Float, Num, NumCast, cast};
+use crate::point::Point;
 
 
 pub trait Algorithm {
-    fn run(&mut self, input_size: usize) -> TSPResult;
+    fn with_input(input: Vec<Point<f32>>) -> Self;
 
-    fn run_in_range_statistic(&mut self, begin: usize, end: usize){
-        todo!()
-    }
+    fn run(&mut self) -> TSPResult;
 
-    fn run_in_range(&mut self, begin: usize, end: usize) -> TSPResults {
-        let mut results = TSPResults::with_capacity(end - begin);
-        for input_size in begin..end {
-            results.push(self.run(input_size));
-        }
-        results
-    }
 }

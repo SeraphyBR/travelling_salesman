@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
-
 use std::fs::File;
+use std::io;
 use std::io::{Error, Write, Read};
 use std::str::FromStr;
 use std::fmt::Display;
@@ -15,7 +15,6 @@ use crate::graph::Graph;
 use crate::point::Point;
 
 const MAX_XY: i32 = 1000;
-
 
 fn gen_points<T: Num + NumCast + Default + Copy + SampleUniform>(size: usize) -> Vec<Point<T>> {
     let mut points = Vec::with_capacity(size);
@@ -64,8 +63,8 @@ pub fn gen_all_allowed_random_inputs<T: Num + NumCast + Default + Display + Copy
     }
 }
 
-pub fn read_graph_in_file<T: Num + NumCast + FromStr + Copy + Default>(input_size: usize) -> Result<Graph<T>, Error> {
-    let points = read_points_in_file(input_size)?;
+pub fn read_graph<T: Num + NumCast + FromStr + Copy + Default>(input_size: usize, from_file: bool) -> Result<Graph<T>, Error> {
+    let points = read_points(input_size, from_file)?;
     let mut graph = Graph::new(points.len());
     for p in points {
         graph.add_point(p);
@@ -74,11 +73,15 @@ pub fn read_graph_in_file<T: Num + NumCast + FromStr + Copy + Default>(input_siz
     Ok(graph)
 }
 
-pub fn read_points_in_file<T: Num + FromStr + Copy>(input_size: usize) -> Result<Vec<Point<T>>, Error> {
-    let mut file = File::open(format!("inputs/vertices_{}.in", input_size))?;
+pub fn read_points<T: Num + FromStr + Copy>(input_size: usize, from_file: bool) -> Result<Vec<Point<T>>, Error> {
+    let mut input: Box<dyn Read> = if from_file {
+        Box::new(File::open(format!("inputs/vertices_{}.in", input_size))?)
+    } else {
+        Box::new(io::stdin())
+    };
     let mut content = String::new();
 
-    file.read_to_string(&mut content)?;
+    input.read_to_string(&mut content)?;
 
     let values: Vec<T> = content.split_whitespace()
         .filter_map(|l| l.trim().parse().ok()).collect();

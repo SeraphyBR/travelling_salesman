@@ -4,15 +4,10 @@ use ndarray::Array2;
 
 use crate::graph;
 use crate::point::Point;
-use crate::travel_route::TravelRoute;
 use super::algorithm::{Algorithm, TSPResult, Instant};
 
-type City = Point<i32>;
 type Route = Vec<usize>;
-type Cities = Vec<City>;
 type Graph = graph::Graph<f32>;
-type Population = Vec<TravelRoute>;
-type Matrix<T> = Array2<T>;
 
 pub struct BranchBound {
     graph: Graph,
@@ -87,10 +82,23 @@ impl BranchBound {
 }
 
 impl Algorithm for BranchBound {
-    fn run(&mut self, input_size: usize) -> TSPResult {
+    fn with_input(input: Vec<Point<f32>>) -> Self {
+        let mut graph = Graph::new(input.len());
+        for p in input {
+            graph.add_point(p);
+        }
+
+        Self {
+            graph,
+            min_dist: f32::MAX,
+            lower_bound: 0.0,
+            min_path: Vec::with_capacity(input.len()),
+        }
+    }
+
+    fn run(&mut self) -> TSPResult {
+        let input_size = self.graph.size();
         let mut graph_path: Route = (0..input_size).collect();
-        self.min_dist = f32::MAX;
-        // self.graph =
         self.calculate_lower_bound();
         let now = Instant::now();
         self.permutation(graph_path.as_mut_slice(), 1);

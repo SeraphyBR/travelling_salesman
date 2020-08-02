@@ -147,7 +147,12 @@ impl Genetic {
 }
 
 impl Algorithm for Genetic {
-    fn run(&mut self, input_size: usize) -> TSPResult {
+    fn with_input(input: Vec<Point<f32>>) -> Self {
+
+    }
+
+
+    fn run(&mut self) -> TSPResult {
         todo!();
     }
 }

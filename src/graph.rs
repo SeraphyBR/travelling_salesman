@@ -41,6 +41,10 @@ impl<T: Num + Copy> Graph<T> {
         self.matrix[[v1,v2]]
     }
 
+    pub fn size(&self) -> usize {
+        self.size
+    }
+
     pub fn get_vertex_count(&self) -> usize {
         self.vertex_count
     }
