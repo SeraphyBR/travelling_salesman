@@ -7,6 +7,7 @@ mod result;
 
 use std::io;
 use std::io::{Error, Write, Read};
+use std::ops::{Range, RangeBounds};
 
 use crate::point::Point;
 
@@ -48,8 +49,8 @@ fn menu_generated() {
         println!("0. Exit\n");
         match read("OP: ").trim() {
             "0" => break,
-            "1" => input_manager::gen_all_allowed_random_inputs::<i32>(1, 100),
-            "2" => {},
+            "1" => input_manager::gen_all_allowed_random_inputs::<i32,_>(1..=100),
+            "2" => run_algorithm_gen::<BruteForce>(50),
             "3" => {},
             "4" => {},
             "5" => {},
@@ -89,6 +90,15 @@ fn run_algorithm_stdin<T: Algorithm>() {
             eprintln!("A entrada está incorreta");
         }
     };
+}
+
+fn run_algorithm_gen<T: Algorithm>(input_size: usize) {
+    match input_manager::read_points_gen(input_size) {
+        Ok(input) => run_algorithm::<T>(input),
+        Err(e) => {
+            eprintln!("Algo de errado ocorreu, voce gerou os arquivos?");
+        }
+    }
 }
 
 fn run_algorithm<T: Algorithm>(input: Vec<Point<f32>>) {

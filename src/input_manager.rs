@@ -5,6 +5,7 @@ use std::io;
 use std::io::{Error, Write, Read};
 use std::str::FromStr;
 use std::fmt::Display;
+use std::ops::RangeInclusive;
 
 use rand::Rng;
 use rand::thread_rng;
@@ -51,8 +52,8 @@ fn gen_random_input<T: Num + NumCast + Default + Display + Copy + SampleUniform>
     Ok(())
 }
 
-pub fn gen_all_allowed_random_inputs<T: Num + NumCast + Default + Display + Copy + SampleUniform>(begin: usize, end: usize) {
-    for i in begin..end {
+pub fn gen_all_allowed_random_inputs<T: Num + NumCast + Default + Display + Copy + SampleUniform, I: Iterator<Item = usize>>(size_range: I) {
+    for i in size_range {
         match gen_random_input::<T>(i) {
             Ok(()) => {},
             Err(e) => {
@@ -67,7 +68,7 @@ pub fn read_points_stdin<T: Num + NumCast + Default + FromStr + Copy>() -> Resul
     read_points(0, false)
 }
 
-pub fn read_points_genereted<T: Num + NumCast + Default + FromStr + Copy>(input_size: usize) -> Result<Vec<Point<T>>, Error> {
+pub fn read_points_gen<T: Num + NumCast + Default + FromStr + Copy>(input_size: usize) -> Result<Vec<Point<T>>, Error> {
     read_points(input_size, true)
 }
 
