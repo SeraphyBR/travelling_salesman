@@ -50,7 +50,7 @@ fn menu_generated() {
         match read("OP: ").trim() {
             "0" => break,
             "1" => input_manager::gen_all_allowed_random_inputs::<i32,_>(1..=100),
-            "2" => run_algorithm_gen::<BruteForce>(50),
+            "2" => run_algorithm_gen::<BruteForce>(6),
             "3" => {},
             "4" => {},
             "5" => {},
@@ -103,7 +103,8 @@ fn run_algorithm_gen<T: Algorithm>(input_size: usize) {
 
 fn run_algorithm<T: Algorithm>(input: Vec<Point<f32>>) {
     let mut algorithm = T::with_input(input);
-    algorithm.run();
+    let result = algorithm.run();
+    println!("{}", result);
 }
 
 fn read(msg: &str) -> String {

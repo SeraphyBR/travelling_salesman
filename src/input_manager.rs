@@ -5,14 +5,12 @@ use std::io;
 use std::io::{Error, Write, Read};
 use std::str::FromStr;
 use std::fmt::Display;
-use std::ops::RangeInclusive;
 
 use rand::Rng;
 use rand::thread_rng;
 use rand::distributions::uniform::SampleUniform;
 use num_traits::{Num, NumCast};
 
-use crate::graph::Graph;
 use crate::point::Point;
 
 const MAX_XY: i32 = 1000;
@@ -85,9 +83,10 @@ fn read_points<T: Num + NumCast + Default + FromStr + Copy>(input_size: usize, f
     let values: Vec<T> = content.split_whitespace()
         .filter_map(|l| l.trim().parse().ok()).collect();
 
-    let mut points = Vec::with_capacity(values[0].to_usize().unwrap_or_default());
+    let size = values[0].to_usize().unwrap_or_default();
+    let mut points = Vec::with_capacity(size);
 
-    for i in 2..values.len() {
+    for i in (2..values.len()).step_by(2) {
         points.push(Point::new(i - 2, (values[i - 1], values[i])));
     }
 

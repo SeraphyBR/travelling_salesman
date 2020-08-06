@@ -1,7 +1,5 @@
 #![allow(dead_code)]
 
-use ndarray::Array2;
-
 use crate::graph;
 use crate::point::Point;
 use super::algorithm::{Algorithm, TSPResult, Instant};

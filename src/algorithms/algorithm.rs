@@ -1,5 +1,4 @@
 pub use crate::result::{TSPResult, TSPResults, Instant};
-use num_traits::{pow, Float, Num, NumCast, cast};
 use crate::point::Point;
 
 

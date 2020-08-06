@@ -1,4 +1,5 @@
 pub use std::time::{Duration, Instant};
+use std::fmt;
 
 pub type TSPResults = Vec<TSPResult>;
 
@@ -17,5 +18,13 @@ impl TSPResult {
             min_path: Vec::from(min_path),
             time
         }
+    }
+}
+
+impl fmt::Display for TSPResult {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(f, "Input size: {}", self.input_size)?;
+        writeln!(f, "Min dist: {}", self.min_dist)?;
+        writeln!(f, "Min path: {:?}", self.min_path)
     }
 }
