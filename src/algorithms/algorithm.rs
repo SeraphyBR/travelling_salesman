@@ -1,4 +1,4 @@
-pub use crate::result::{TSPResult, TSPResults, Instant};
+pub use crate::result::{TSPResult, Instant};
 use crate::point::Point;
 
 

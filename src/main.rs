@@ -9,6 +9,8 @@ use std::io;
 use std::io::{Error, Write, Read};
 use std::ops::{Range, RangeBounds};
 
+use human_panic::setup_panic;
+
 use crate::point::Point;
 
 use algorithms::{
@@ -20,6 +22,7 @@ use algorithms::{
 };
 
 fn main() {
+    setup_panic!();
     loop {
         println!("Traveling Salesman Solver:");
         println!("1. Run with genereted inputs");
@@ -42,22 +45,14 @@ fn menu_generated() {
         println!("3. Branch and Bound through inputs");
         println!("4. Dynamic through inputs");
         println!("5. Genetic through inputs");
-        println!("6. Brute Force statistics");
-        println!("7. Branch and Bound statistics");
-        println!("8. Dynamic statistics");
-        println!("9. Genetic statistics");
         println!("0. Exit\n");
         match read("OP: ").trim() {
             "0" => break,
             "1" => input_manager::gen_all_allowed_random_inputs::<i32,_>(1..=100),
-            "2" => run_algorithm_gen::<BruteForce>(6),
-            "3" => {},
-            "4" => {},
-            "5" => {},
-            "6" => {},
-            "7" => {},
-            "8" => {},
-            "9" => {},
+            "2" => run_algorithm_gen_range::<BruteForce,_>(1..=100),
+            "3" => run_algorithm_gen_range::<BranchBound,_>(1..=100),
+            "4" => run_algorithm_gen_range::<Dynamic,_>(1..=100),
+            "5" => run_algorithm_gen_range::<Genetic,_>(1..=100),
             _ => continue,
         }
     }
@@ -90,6 +85,12 @@ fn run_algorithm_stdin<T: Algorithm>() {
             eprintln!("A entrada está incorreta");
         }
     };
+}
+
+fn run_algorithm_gen_range<T: Algorithm, I: Iterator<Item = usize>>(size_range: I) {
+    for i in size_range {
+        run_algorithm_gen::<T>(i);
+    }
 }
 
 fn run_algorithm_gen<T: Algorithm>(input_size: usize) {

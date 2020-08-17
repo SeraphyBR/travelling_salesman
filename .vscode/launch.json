@@ -1,0 +1,45 @@
+{
+    // Use o IntelliSense para aprender sobre possíveis atributos.
+    // Passe o mouse para ver as descrições dos atributos existentes.
+    // Para obter mais informações, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'travelling_salesman'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=travelling_salesman",
+                    "--package=travelling_salesman"
+                ],
+                "filter": {
+                    "name": "travelling_salesman",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'travelling_salesman'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=travelling_salesman",
+                    "--package=travelling_salesman"
+                ],
+                "filter": {
+                    "name": "travelling_salesman",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
