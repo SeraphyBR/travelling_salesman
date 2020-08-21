@@ -101,6 +101,6 @@ impl Algorithm for BranchBound {
         self.calculate_lower_bound();
         let now = Instant::now();
         self.permutation(graph_path.as_mut_slice(), 1);
-        TSPResult::with_values(input_size, self.min_dist, self.min_path.as_slice(), now.elapsed())
+        TSPResult::with_values("Branch Bound".into(), input_size, self.min_dist, self.min_path.as_slice(), now.elapsed())
     }
 }
