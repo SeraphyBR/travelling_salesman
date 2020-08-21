@@ -70,6 +70,6 @@ impl Algorithm for BruteForce {
         let mut graph_path: Route = (0..input_size).collect();
         let now = Instant::now();
         self.permutation(graph_path.as_mut_slice(), 1);
-        TSPResult::with_values(input_size, self.min_dist, self.min_path.as_slice(), now.elapsed())
+        TSPResult::with_values("Brute Force".into(), input_size, self.min_dist, self.min_path.as_slice(), now.elapsed())
     }
 }
